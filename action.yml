@@ -1,0 +1,37 @@
+name: 'Blender Addon Release'
+description: 'Action to automatically build the Blender add-on and store the resulting .zip artifact.'
+author: 'Andreas Gajdosik, BlenderKit'
+branding:
+  icon: 'box'
+  color: 'orange'
+inputs:
+  release_stage:
+    description: 'Stage of the release, available options: alpha, beta, rc (release candidate), gold (final public release).'
+    default: 'gold'
+    options: [ 'alpha', 'beta', 'rc', 'gold']
+  artifact-name:
+    description: 'Name of the artifact to be downloaded. If left empty the action will use repository name.'
+    default: ''
+  version:
+    description: 'Version of the release, format: X.Y.Z (major.minor.patch). If left empty, action will take the version from the __init__.py file.'
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download artifact with name
+      if: ${{ inputs.artifact-name != '' }}
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: release
+
+    - name: Download artifact with repository name
+      if: ${{ inputs.artifact-name == '' }}
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ github.repository }}
+        path: release
+
+    - name: LS
+      run: ls -la release

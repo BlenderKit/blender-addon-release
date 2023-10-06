@@ -24,15 +24,13 @@ runs:
       uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.artifact-name }}
-        path: release
 
     - name: Download artifact with repository name
       if: ${{ inputs.artifact_name == '' }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ github.event.repository.name }}
-        path: release
 
     - name: LS
-      run: ls -la release
+      run: ls -la
       shell: bash

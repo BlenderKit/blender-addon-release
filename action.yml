@@ -35,3 +35,4 @@ runs:
 
     - name: LS
       run: ls -la release
+      shell: bash

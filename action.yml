@@ -9,7 +9,7 @@ inputs:
     description: 'Stage of the release, available options: alpha, beta, rc (release candidate), gold (final public release).'
     default: 'gold'
     options: [ 'alpha', 'beta', 'rc', 'gold']
-  artifact-name:
+  artifact_name:
     description: 'Name of the artifact to be downloaded. If left empty the action will use repository name.'
     default: ''
   version:
@@ -20,14 +20,14 @@ runs:
   using: "composite"
   steps:
     - name: Download artifact with name
-      if: ${{ inputs.artifact-name != '' }}
+      if: ${{ inputs.artifact_name != '' }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.artifact-name }}
         path: release
 
     - name: Download artifact with repository name
-      if: ${{ inputs.artifact-name == '' }}
+      if: ${{ inputs.artifact_name == '' }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ github.repository }}

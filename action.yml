@@ -30,7 +30,7 @@ runs:
       if: ${{ inputs.artifact_name == '' }}
       uses: actions/download-artifact@v3
       with:
-        name: ${{ github.repository }}
+        name: ${{ github.event.repository.name }}
         path: release
 
     - name: LS

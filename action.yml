@@ -10,7 +10,10 @@ inputs:
     default: 'gold'
     options: [ 'alpha', 'beta', 'rc', 'gold']
   artifact_name:
-    description: 'Name of the artifact to be downloaded. If left empty the action will use repository name.'
+    description: 'Name of the artifact (previously uploaded by build job) to be downloaded. If left empty the action will use repository name.'
+    default: ''
+  release_name:
+    description: 'Name of the release, if left empty, action will use artifact name.'
     default: ''
   version:
     description: 'Version of the release, format: X.Y.Z (major.minor.patch). If left empty, action will take the version from the __init__.py file.'
@@ -23,7 +26,7 @@ runs:
       if: ${{ inputs.artifact_name != '' }}
       uses: actions/download-artifact@v3
       with:
-        name: ${{ inputs.artifact-name }}
+        name: ${{ inputs.artifact_name }}
 
     - name: Download artifact with repository name
       if: ${{ inputs.artifact_name == '' }}
@@ -31,6 +34,14 @@ runs:
       with:
         name: ${{ github.event.repository.name }}
 
-    - name: LS
-      run: ls -la
-      shell: bash
+ #   - name: Rename artifact
+ #     run: mv ${{ github.event.repository.name }} ${{ github.event.repository.name }}-${{ github.sha }}
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        name: ${{inputs.release_name}} v${{inputs.version}}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}
+        prerelease: ${{ inputs.release_stage != 'gold' && 'true' || 'false' }}
+        tag_name: v${{inputs.version}}
+        files: ${{ inputs.artifact-name }}

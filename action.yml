@@ -34,12 +34,6 @@ runs:
       with:
         name: ${{ github.event.repository.name }}
 
-    - name: LS
-      run: ls -a
-
-    - name: LS
-      run: ls -a
-
     - name: Release
       uses: softprops/action-gh-release@v1
       with:

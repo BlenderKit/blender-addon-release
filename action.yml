@@ -23,11 +23,19 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Set release name
+      run: |
+        if [ -z "${{ inputs.release_name }}" ]; then
+          echo "RELEASE_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
+        else
+          echo "RELEASE_NAME=${{ inputs.release_name }}" >> $GITHUB_ENV
+        fi
+
     - name: Create out directory
       run: mkdir out
       shell: bash
 
-    - name: Download artifact with name
+    - name: Download artifact with defined artifact_name
       if: ${{ inputs.artifact_name != '' }}
       uses: actions/download-artifact@v3
       with:
@@ -44,7 +52,7 @@ runs:
     - name: Zip contents of out
       shell: bash
       run: |
-        zip -r ./out/${{ inputs.release_name }}-v${{ inputs.version }}-${{ inputs.release_stage == 'gold' && 'final' || inputs.release_stage }}.zip ./out/
+        zip -r ./out/{{ env.RELEASE_NAME }}-v${{ inputs.version }}-${{inputs.release_stage == 'gold' && '' || inputs.release_stage}}.zip ./out/
       
     - name: LS
       shell: bash
@@ -54,7 +62,7 @@ runs:
       uses: softprops/action-gh-release@v1
       with:
         draft: true
-        name: ${{inputs.release_name}} v${{inputs.version}}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}
+        name: ${{env.RELEASE_NAME}} v${{inputs.version}}${{inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage)}}
         prerelease: ${{ inputs.release_stage != 'gold' && 'true' || 'false' }}
         tag_name: v${{inputs.version}}
-        files: ./out/${{ inputs.release_name }}-v${{ inputs.version }}-${{ inputs.release_stage == 'gold' && 'final' || inputs.release_stage }}.zip
+        files: ./out/${{env.RELEASE_NAME}}-v${{inputs.version}}-${{inputs.release_stage == 'gold' && '' || inputs.release_stage}}.zip

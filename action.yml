@@ -24,6 +24,7 @@ runs:
   using: "composite"
   steps:
     - name: Set release name
+      shell: bash
       run: |
         if [ -z "${{ inputs.release_name }}" ]; then
           echo "RELEASE_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV

@@ -32,13 +32,14 @@ runs:
           echo "RELEASE_NAME=${{ inputs.release_name }}" >> $GITHUB_ENV
         fi
 
-  - name: Set release name suffix
-    run: |
-      if [ "${{ inputs.release_stage }}" != "gold" ]; then
-        echo "RELEASE_SUFFIX=-${{ inputs.release_stage }}" >> $GITHUB_ENV
-      else
-        echo "RELEASE_SUFFIX=" >> $GITHUB_ENV
-      fi
+    - name: Set release name suffix
+      shell: bash
+      run: |
+        if [ "${{ inputs.release_stage }}" != "gold" ]; then
+          echo "RELEASE_SUFFIX=-${{ inputs.release_stage }}" >> $GITHUB_ENV
+        else
+          echo "RELEASE_SUFFIX=" >> $GITHUB_ENV
+        fi
 
     - name: Create out directory
       run: mkdir out

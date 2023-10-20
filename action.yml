@@ -34,8 +34,11 @@ runs:
       with:
         name: ${{ github.event.repository.name }}
 
- #   - name: Rename artifact
- #     run: mv ${{ github.event.repository.name }} ${{ github.event.repository.name }}-${{ github.sha }}
+    - name: LS
+      run: ls -a
+
+    - name: LS
+      run: ls -a
 
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -44,4 +47,4 @@ runs:
         name: ${{inputs.release_name}} v${{inputs.version}}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}
         prerelease: ${{ inputs.release_stage != 'gold' && 'true' || 'false' }}
         tag_name: v${{inputs.version}}
-        files: ${{ inputs.artifact-name }}
+        files: ${{ inputs.artifact_name }}

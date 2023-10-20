@@ -53,7 +53,7 @@ runs:
     - name: Zip contents of out
       shell: bash
       run: |
-        zip -r ./out/${{env.RELEASE_NAME}}-v${{ inputs.version }}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}.zip ./out/
+        zip -r ./out/${{ env.RELEASE_NAME }}-v${{ inputs.version }}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}.zip ./out/
       
     - name: LS
       shell: bash
@@ -63,8 +63,8 @@ runs:
       uses: softprops/action-gh-release@v1
       with:
         draft: true
-        name: ${{env.RELEASE_NAME}} v${{inputs.version}}${{inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage)}}
+        name: ${{ env.RELEASE_NAME }} v${{ inputs.version }}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}
         prerelease: ${{ inputs.release_stage != 'gold' && 'true' || 'false' }}
         tag_name: v${{inputs.version}}
-        files: ./out/${{env.RELEASE_NAME}}-v${{inputs.version}}-${{inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage)}}.zip
+        files: ./out/${{ env.RELEASE_NAME }}-v${{ inputs.version }}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}.zip
 

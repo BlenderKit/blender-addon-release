@@ -23,25 +23,35 @@ inputs:
     description: 'Name of the release, if left empty, action will use artifact name.'
     default: ''
 
-
 runs:
   using: "composite"
   steps:
+    - name: Create out directory
+      run: mkdir out
+      shell: bash
+
     - name: Download artifact with name
       if: ${{ inputs.artifact_name != '' }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ inputs.artifact_name }}
+        path: ./out
 
     - name: Download artifact with repository name
       if: ${{ inputs.artifact_name == '' }}
       uses: actions/download-artifact@v3
       with:
         name: ${{ github.event.repository.name }}
+        path: ./out
 
-    - name: LS
-      run: ls
+    - name: Zip contents of out
       shell: bash
+      run: |
+        zip -r ./out/${{ inputs.release_name }}-v${{ inputs.version }}-${{ inputs.release_stage == 'gold' && 'final' || inputs.release_stage }}.zip ./out/
+      
+    - name: LS
+      shell: bash
+      run: ls ./out
 
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -50,4 +60,4 @@ runs:
         name: ${{inputs.release_name}} v${{inputs.version}}${{ inputs.release_stage == 'gold' && '' || format('-{0}', inputs.release_stage) }}
         prerelease: ${{ inputs.release_stage != 'gold' && 'true' || 'false' }}
         tag_name: v${{inputs.version}}
-        files: ${{ inputs.artifact_name }}.zip
+        files: ./out/${{ inputs.release_name }}-v${{ inputs.version }}-${{ inputs.release_stage == 'gold' && 'final' || inputs.release_stage }}.zip

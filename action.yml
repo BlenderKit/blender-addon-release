@@ -17,7 +17,7 @@ inputs:
     description: 'Name of the artifact (previously uploaded by build job) to be downloaded. If left empty the action will use repository name.'
     default: ''
   release_name:
-    description: 'Name of the release, if left empty, action will use artifact name.'
+    description: 'Name of the release - will be used in title of the release. If left empty, action will use repository name.'
     default: ''
 
 runs:

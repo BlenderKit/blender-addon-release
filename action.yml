@@ -5,6 +5,8 @@ branding:
   icon: 'box'
   color: 'orange'
 inputs:
+  version:
+    description: 'Version of the release, format: X.Y.Z (major.minor.patch).'
   release_stage:
     description: 'Stage of the release, available options: alpha, beta, rc (release candidate), gold (final public release).'
     default: 'gold'
@@ -15,9 +17,7 @@ inputs:
   release_name:
     description: 'Name of the release, if left empty, action will use artifact name.'
     default: ''
-  version:
-    description: 'Version of the release, format: X.Y.Z (major.minor.patch). If left empty, action will take the version from the __init__.py file.'
-    default: ''
+
 
 runs:
   using: "composite"

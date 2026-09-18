@@ -47,14 +47,14 @@ runs:
 
     - name: Download artifact with defined artifact_name
       if: ${{ inputs.artifact_name != '' }}
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v7
       with:
         name: ${{ inputs.artifact_name }}
         path: ./out
 
     - name: Download artifact with repository name
       if: ${{ inputs.artifact_name == '' }}
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v7
       with:
         name: ${{ github.event.repository.name }}
         path: ./out
@@ -69,7 +69,7 @@ runs:
       run: ls ./out
 
     - name: Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       with:
         draft: true
         name: ${{ env.RELEASE_NAME }} v${{ inputs.version }}${{ env.RELEASE_SUFFIX }}

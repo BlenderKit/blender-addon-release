@@ -1,6 +1,6 @@
 name: 'Blender Addon Release'
 description: 'Action to automatically build the Blender add-on and store the resulting .zip artifact.'
-author: 'Andreas Gajdosik, BlenderKit'
+author: 'Andreas Gajdosik, Blendkit'
 
 branding:
   icon: 'box'

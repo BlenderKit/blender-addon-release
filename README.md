@@ -3,13 +3,13 @@
 This GitHub Action is designed to automatically create a release of the Blender add-on and upload .zip file to it.
 Action requires the add-on to be previously build and uploaded as artifact using [Blender Addon Build](https://github.com/BlenderKit/blender-addon-build) action or [Upload Artifact](https://github.com/actions/upload-artifact) action.
 
-## 🚀 Features
+## Features
 
 - Automated zipping of Blender Addon artifacts.
 - Dynamic naming convention based on the stage of release and other inputs.
 - Supports multiple release stages including: alpha, beta, rc (release candidate), and gold (final public release).
 
-## 🛠 Usage
+## Usage
 
 Use the Blender Addon Release action in your GitHub workflow after the [Blender Addon Build](https://github.com/BlenderKit/blender-addon-build) or [Upload Artifact](https://github.com/actions/upload-artifact) action.
 Here's a basic example:
@@ -61,7 +61,7 @@ jobs:
 | `artifact_name`| Name of the artifact to be downloaded. If left empty, the action will use the repository name.                                                                     | `''`     |
 | `release_name` | Name of the release. If left empty, the action will use the repository name.                                                                                      | `''`     |
 
-## 📝 Notes
+## Notes
 
 It's important to note that this action is designed to be used in conjunction with the [Blender Addon Build](https://github.com/BlenderKit/blender-addon-build) action.
 Make sure to run the Build job before the Release job.
